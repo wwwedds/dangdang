@@ -1,6 +1,6 @@
 <template>
     <ul>
-      <li><i class='iconfont icon-back'></i></li>
+      <li @click="$router.replace('/goods')"><i class='iconfont icon-back'></i></li>
       <li><router-link to='/goods'>商品</router-link></li>
       <li><router-link to='/detail'>详情</router-link></li>
       <li><router-link to='/comment'>评论</router-link></li>

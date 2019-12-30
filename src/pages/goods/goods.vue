@@ -69,7 +69,16 @@
       </div>
     <!-- 评论模块结束 -->
     <!-- 促销模块开始 -->
-      <div class="promotion">
+      <div class="promotion" @click="showPopup">
+        <van-popup v-model="show" :style="{ height: '20%',width: '60%'}">
+              <span class="coupon_title">满额减</span>
+              <span class="icon_list">每满￥79.00减￥30.00</span>
+              <span class="coupon_title">加价购</span>
+              <span class="icon_list">加1.90~129.00元换购热销商品</span>
+              <span class="coupon_title">加价购</span>
+              <span class="icon_list">加1.90~129.00元换购热销商品</span>
+           
+        </van-popup>
           <div class="promote_name"><span class="aa">促销</span></div>
           <div class="promo_section">
             <a  href="javascript:;">
@@ -123,13 +132,22 @@
       <section class="jump_detail">
         <div class="address">
           <a>
-            <dl>
+            <dl @click="showPicker=true">
               <dt>送至：</dt>
-              <dd>浙江&gt;杭州市&gt;其他区县
+              <dd>{{value[0] || '省'}}&gt;{{value[1] || '市'}}&gt;其他区县
                 <br>22:45前下单，预计明天送达
                 <br>运费6元，满49元包邮
                 <br></dd>
             </dl>
+            <van-popup v-model="showPicker" position="bottom">
+              <van-picker
+                show-toolbar
+                :columns="columns"
+                @cancel="showPicker = false"
+                @confirm="onConfirm"
+                @change="onChange"
+              />
+            </van-popup>
           </a>
           <div class='arror'>
            <i class="iconfont icon-jiantou1"></i>
@@ -247,8 +265,43 @@
 <script type="text/ecmascript-6">
  import Swiper from 'swiper'
   import 'swiper/css/swiper.css'
+ // import citys from  './citys'
+  const citys = {
+  '浙江省': ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+  '福建省': ['福州', '厦门', '莆田', '三明', '泉州'],
+  '河北省': ['石家庄','廊坊','承德']
+};
   export default {
-  
+    data() {
+    return {
+      value: '',
+      showPicker: false,
+     columns: [
+        {
+          values: Object.keys(citys),
+          className: 'column1'
+        },
+        {
+          values: citys['浙江'],
+          className: 'column2',
+          defaultIndex: 2
+        }
+      ],
+      show:false
+    }
+  },
+  methods: {
+    onConfirm(value) {
+      this.value = value;
+      this.showPicker = false;
+    },
+    onChange(picker, values) {
+      picker.setColumnValues(1, citys[values[0]]);
+    }
+    ,showPopup() {
+      this.show = !this.show;
+    }
+  },
      mounted() {
           new Swiper ('.swiper-container', {
       

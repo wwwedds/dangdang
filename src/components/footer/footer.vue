@@ -1,5 +1,12 @@
 <template>
-  <footer class="footer border-1px">
+<van-goods-action>
+  <van-goods-action-icon icon="chat-o icon-dianpu" text="客服" />
+  <van-goods-action-icon icon="cart-o" text="购物车" info="5" @click="$router.replace('/cart')"/>
+  <van-goods-action-icon icon="shop-o" text="店铺" info="12" />
+  <van-goods-action-button type="warning" text="加入购物车" />
+  <van-goods-action-button type="danger" text="立即购买"/>
+</van-goods-action>
+  <!-- <footer class="footer border-1px">
     <div class='left'>
       <router-link  class="item" to="/shop" >
       <span class="item_icon">
@@ -29,46 +36,54 @@
   </div>
 
   
-</footer>
+</footer> -->
 </template>
 
 <script type="text/ecmascript-6">
   export default {
+     methods: {
+    // onClickIcon() {
+    //   Toast('点击图标');
+    // },
+    // onClickButton() {
+    //   Toast('点击按钮');
+    // }
+  }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import "../../common/stylus/mixins.styl"
-.footer
-    top-border-1px(#e4e4e4)
-    position fixed
-    z-index 100
-    left 0
-    right 0
-    bottom 0
-    background-color #fff
-    width 100%
-    height 51px
-    display flex
-    .left
-      display flex
-      width 45%
-      //margin-left 10px
-      margin-top 10px
-      text-align center
-      .item
-        display flex
-        flex-direction column
-        width 33.3333%
-        color #8E9A9B
-    .right 
-      display flex
-      width 55%
-      &:nth-child(1)
-      .alone
-        text-align center
-        line-height 51px
-        width 50%
-        color #8E9A9B
-        background yellow
+// .footer
+//     top-border-1px(#e4e4e4)
+//     position fixed
+//     z-index 100
+//     left 0
+//     right 0
+//     bottom 0
+//     background-color #fff
+//     width 100%
+//     height 51px
+//     display flex
+//     .left
+//       display flex
+//       width 45%
+//       //margin-left 10px
+//       margin-top 10px
+//       text-align center
+//       .item
+//         display flex
+//         flex-direction column
+//         width 33.3333%
+//         color #8E9A9B
+//     .right 
+//       display flex
+//       width 55%
+//       &:nth-child(1)
+//       .alone
+//         text-align center
+//         line-height 51px
+//         width 50%
+//         color #8E9A9B
+//         background yellow
 </style>
