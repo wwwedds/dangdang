@@ -3,35 +3,26 @@
     <!-- 轮播图 -->
       <div  class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" >          
-              <img src="./images/1.jpg">          
-            </div>
-            <div class="swiper-slide" >          
-              <img src="./images/2.jpg">          
-            </div>
-             <div class="swiper-slide" >          
-              <img src="./images/2.jpg">          
-            </div>
-             <div class="swiper-slide" >          
-              <img src="./images/2.jpg">          
+            <div class="swiper-slide" v-for="(item,index) in detail.big_img" :key="index" >          
+              <img :src="item">          
             </div>
         </div>
         <div class="swiper-pagination"></div>
       </div>
-      <!-- 轮播图结束 -->
+    <!-- 轮播图结束 -->
       <!-- 图书标题及价格开始-->
       <div class="content">
         <div class="title">
-          <p><img src="./images/icon_zy.png" />鬼谷子全集正版原著珍藏版全书绝学白话文鬼谷子教你攻心术鬼谷子的局心计谋略为人处世绝学智慧谋略成功书籍畅销书排行榜鬼谷子书</p>
+          <p><img src="./images/icon_zy.png" />{{detail.dataProduct.productName}}</p>
           <p>吉林出版社</p>
           <a class="promo_title"  
           href="javascript:;">跨年狂欢，百万图书5折封顶，点击抢购！</a>
         </div>
-        <div class="new_price">
+        <div class="new_price" v-if="detail.new_price">
           <div class="new_left">
-            <div class="main_price_div">¥<span class="main_price">1.00</span>
+            <div class="main_price_div">¥<span class="main_price">{{detail.new_price.price_1}}</span>
             </div>
-            <span class="discount">(0.26折)</span>
+            <span class="discount">({{detail.new_price.price_3}})</span>
             <!--降价提醒-->
           <div class="price_remind">
               <a class="notice" href="javascript:;">
@@ -42,7 +33,7 @@
           </div>
           <!-- 定价 -->
           <div class='price'>
-            <div class="price-div">定价<span class="line"> ¥39.50</span></div></div>
+            <div class="price-div">{{detail.new_price.price_type_name}}<span class="line"> ¥{{detail.new_price.price_2}}</span></div></div>
             <div class="seckill">限购价</div>
           </div>
       </div>
@@ -51,7 +42,7 @@
       <div class="book_score">
         <div class="left">
           <div class="stars_div">
-            <span class="score">9.5</span>
+            <span class="score">{{detail.new_price.discount}}</span>
             <div class="stars">
               <span class="red"><i class='iconfont icon-pingfenmini'></i></span>
               <span class="red"><i class='iconfont icon-pingfenmini'></i></span>
@@ -127,8 +118,9 @@
         </section>
       </div>
       
-    <!-- 图书信息模块开始 -->
-    <!-- 配送信息开始 -->
+      <!-- 图书信息模块开始 -->
+
+      <!-- 配送信息开始 -->
       <section class="jump_detail">
         <div class="address">
           <a>
@@ -171,9 +163,9 @@
       <!-- 数量图文详情更多卖家-->
       <section class='count'>
         <span>数量:</span>
-        <button>+</button>
-        <input type="text" value='1'>
-        <button>-</button>
+        <button @click.stop="updateCount(true)">+</button>
+        <input type="text" value='count' v-model="count">
+        <button @click.stop="updateCount(false)">-</button>
       </section>
       <section class="infomation">
         <a href="javascript:;">图文详情</a>
@@ -265,6 +257,7 @@
 <script type="text/ecmascript-6">
  import Swiper from 'swiper'
   import 'swiper/css/swiper.css'
+  import {mapState} from 'vuex'
  // import citys from  './citys'
   const citys = {
   '浙江省': ['杭州', '宁波', '温州', '嘉兴', '湖州'],
@@ -300,17 +293,27 @@
     }
     ,showPopup() {
       this.show = !this.show;
+    },
+    updateCount(isAdd){
+      //this.count=++this.count
+      this.$store.commit("updateCount",isAdd)
     }
   },
-     mounted() {
-          new Swiper ('.swiper-container', {
-      
+   async mounted() {
+   await  this.$store.dispatch('getDetailInfo'),
+      new Swiper ('.swiper-container', {
         loop: true, // 循环模式选项
         // 如果需要分页器
         pagination: {
           el: '.swiper-pagination',
         }
       })
+       
+    },
+     computed: {
+      ...mapState(["detail"]),
+      ...mapState(["count"]),
+      
     }
     
   }

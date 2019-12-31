@@ -12,6 +12,7 @@ import {
 } from 'vant';
 import { Toast } from 'vant';
 import { Overlay } from 'vant';
+import store from './store/store'
 
 Vue.use(Overlay);
 
@@ -29,5 +30,5 @@ Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-  router
+  router,store
 }).$mount('#app')
