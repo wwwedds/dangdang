@@ -1,4 +1,5 @@
 <template>
+<div class="all">
   <div class='detailContainer'>
     <!-- 轮播图 -->
       <div  class="swiper-container">
@@ -60,16 +61,8 @@
       </div>
     <!-- 评论模块结束 -->
     <!-- 促销模块开始 -->
-      <div class="promotion" @click="showPopup">
-        <van-popup v-model="show" :style="{ height: '20%',width: '60%'}">
-              <span class="coupon_title">满额减</span>
-              <span class="icon_list">每满￥79.00减￥30.00</span>
-              <span class="coupon_title">加价购</span>
-              <span class="icon_list">加1.90~129.00元换购热销商品</span>
-              <span class="coupon_title">加价购</span>
-              <span class="icon_list">加1.90~129.00元换购热销商品</span>
-           
-        </van-popup>
+      <div class="promotion" @click.stop="showPopup">
+  
           <div class="promote_name"><span class="aa">促销</span></div>
           <div class="promo_section">
             <a  href="javascript:;">
@@ -251,6 +244,20 @@
     <br/>
     <br/>
     <br/>
+  </div>
+  <div class="shade">
+    <transition name="fade">
+    <div class="shade_promotion" v-show="show" @click.stop="show=false">
+      <div class="promote-name">
+        <span class="aa">促销</span>
+          <div>
+            <span class="coupon_title">满额减</span>
+            <span class="icon_list">每满￥79.00减￥30.00</span>
+          </div>
+      </div>
+    </div>
+  </transition>
+  </div>
 </div>
 </template>
 
@@ -319,7 +326,8 @@
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-.detailContainer
+.all
+  .detailContainer
     background-color  #EEEEEE
     .swiper-container
       position relative
@@ -620,8 +628,30 @@
           padding-right 15px
           border-right 1px solid #eee
           line-height 25px
-
-
+  .shade_promotion
+    position: fixed
+    //position:relative
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 40
+    backdrop-filter: blur(10px)
+    opacity: 1
+    background: rgba(7, 17, 27, 0.6)
+    &.fade-enter-active, &.fade-leave-active
+      transition: opacity 0.5s
+    &.fade-enter, &.fade-leave-to
+      opacity: 0
+    .promote-name
+      z-index 1000
+      position: absolute
+      bottom 0 
+      left 0
+      background-color white
+      font-size 20px
+      width 100% 
+      height 200px
         
          
 
