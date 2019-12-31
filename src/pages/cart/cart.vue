@@ -318,21 +318,4 @@
           display inline-block
           background-color red
           color #fff
-
-        
-      
-
-
-
-              
-
-
-
-
-
-
-      
-
-
-
 </style>
