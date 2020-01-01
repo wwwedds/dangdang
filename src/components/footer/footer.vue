@@ -1,7 +1,7 @@
 <template>
 <van-goods-action>
   <van-goods-action-icon icon="chat-o icon-dianpu" text="客服" />
-  <van-goods-action-icon icon="cart-o" text="购物车" :info="countI>0?(count+1):count" @click="$router.replace('/cart')"/>
+  <van-goods-action-icon icon="cart-o" text="购物车" :info="count" @click="$router.replace('/cart')"/>
   <van-goods-action-icon icon="shop-o" text="店铺" info="12" />
   <van-goods-action-button type="warning" text="加入购物车" @click="onClickButton"/>
   <van-goods-action-button type="danger" text="立即购买"/>
@@ -55,9 +55,9 @@ import {mapState} from 'vuex'
       // },
       onClickButton() {
         this.$toast('添加购物车成功')
-        this.$store.commit("setCount",this.countI)
+        this.$store.commit("setCount")
         console.log(this.countI)
-      },
+      }
     }
   }
 </script>
