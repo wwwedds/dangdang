@@ -65,18 +65,18 @@
   
           <div class="promote_name"><span class="aa">促销</span></div>
           <div class="promo_section">
-            <a  href="javascript:;">
+            <div>
               <span class="coupon_title">满额减</span>
               <span class="icon_list">每满￥79.00减￥30.00</span>
-            </a>
-            <a  href="javascript:;">
+            </div>
+            <div>
               <span class="coupon_title">加价购</span>
               <span class="icon_list">加1.90~129.00元换购热销商品</span>
-            </a>
-            <a  href="javascript:;">
+            </div>
+            <div>
               <span class="coupon_title">加价购</span>
               <span class="icon_list">加1.90~129.00元换购热销商品</span>
-            </a>
+            </div>
           </div>
           <div class='arror'>
             <i class="iconfont icon-jiantou1"></i>
@@ -116,24 +116,31 @@
       <!-- 配送信息开始 -->
       <section class="jump_detail">
         <div class="address">
-          <a>
+          <div class="address_dl">
             <dl @click="showPicker=true">
               <dt>送至：</dt>
-              <dd>{{value[0] || '省'}}&gt;{{value[1] || '市'}}&gt;其他区县
+              <dd>{{'地址:'||value[0].name}}
+                <span v-if="value">
+                   {{value[0].name}}&gt;{{value[1].name}}&gt;{{value[2].name}}
+                </span>
                 <br>22:45前下单，预计明天送达
                 <br>运费6元，满49元包邮
                 <br></dd>
+      
             </dl>
-            <van-popup v-model="showPicker" position="bottom">
-              <van-picker
-                show-toolbar
-                :columns="columns"
-                @cancel="showPicker = false"
+            <van-popup v-model="showPicker" position="bottom" >
+               <van-area
+                :area-list="areaList"
+                show-postal
+                show-delete
+                show-set-default
+                show-search-result
                 @confirm="onConfirm"
                 @change="onChange"
+                :search-result="searchResult"
               />
             </van-popup>
-          </a>
+          </div>
           <div class='arror'>
            <i class="iconfont icon-jiantou1"></i>
         </div>
@@ -161,13 +168,13 @@
         <button @click.stop="updateCount(false)">-</button>
       </section>
       <section class="infomation">
-        <a href="javascript:;">图文详情</a>
+        <div class="infomatin_text">图文详情</div>
         <div class='arror'>
           <i class="iconfont icon-jiantou1"></i>
         </div>
       </section>
       <section class="more-sellers">
-        <a href="javascript:;">更多卖家</a>
+        <div class="more-sellers_text">更多卖家</div>
         <div class='arror'>
           <i class="iconfont icon-jiantou1"></i>
         </div>
@@ -175,9 +182,9 @@
   <!--短评长评开始-->
     <div class='comment'>
       <div class="short-comment">
-        <a><h4>短评（1620）<span class="good_rate">100.0%好评</span> 
+        <div><h4>短评（1620）<span class="good_rate">100.0%好评</span> 
             <div class="write_comment">写短评</div></h4>
-        </a>
+        </div>
         <ul class="comment_list">
           <li><a href="javascript:;">好评(1620)</a></li>
           <li><a href="javascript:;">对孩子有帮助的(1620)</a></li>
@@ -190,7 +197,7 @@
           <li>
             <div class="book-userinfo">
               <a class="user_pictor" href="javascript:;"><img src="./images/ddshop_icon.png"/> </a>
-              <a class="user_name" href="javascript:;"><span>用户昵称</span></a>
+              <span class="user_name"><span>用户昵称</span></span>
               <span class="buy"><img src="./images/1546071739-reviewimg-9_o.jpg" alt=""></span>
               <div class="stars_div">
                 <div class="stars">
@@ -202,15 +209,14 @@
                 </div>
                 <span class="score">9.5分</span>
               </div>
-                <a><span class="text_type ">
+                <div><span class="text_type ">
                   </span><p class="content_text ">
                     我自己学习用的，每周背两篇，之前已经背了一部分，
-                    这次买的比之前的书更详细，喜欢！</p></a>
+                    这次买的比之前的书更详细，喜欢！</p></div>
               <div class="user_operate">
               <span><i class='iconfont icon-dianzan'></i><span class="text">1</span></span>
-               <a href="javascript:;"><i class='iconfont icon-huihua'></i>回复</a>
+               <span><i class='iconfont icon-huihua'></i>回复</span>
               </div>
-             
             </div>
           </li>
         </ul>
@@ -220,9 +226,9 @@
     <div class="lang-comment">暂无长评</div>
     <!-- 短评长评 结束-->
     <section class="shop">
-      <a href="javascripts:;">
+      <div>
         <div class="shop_header"><img src="./images/ddshop_icon.png" alt=""><span>当当自营图书</span></div>
-      </a>
+      </div>
       <ul class="shop_info"> 
         <li>
           <p>商品包装</p>
@@ -262,50 +268,59 @@
 </template>
 
 <script type="text/ecmascript-6">
+import areaList from "../../assets/area";
  import Swiper from 'swiper'
   import 'swiper/css/swiper.css'
   import {mapState} from 'vuex'
- // import citys from  './citys'
-  const citys = {
-  '浙江省': ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-  '福建省': ['福州', '厦门', '莆田', '三明', '泉州'],
-  '河北省': ['石家庄','廊坊','承德']
-};
+ 
   export default {
     data() {
     return {
       value: '',
       showPicker: false,
-     columns: [
-        {
-          values: Object.keys(citys),
-          className: 'column1'
-        },
-        {
-          values: citys['浙江'],
-          className: 'column2',
-          defaultIndex: 2
-        }
-      ],
-      show:false
+    
+      show:false,
+        areaList,
+      searchResult: []
     }
   },
   methods: {
     onConfirm(value) {
-      this.value = value;
+      if (value) {
+          this.value = value;
       this.showPicker = false;
+      }else{
+         value[0].name="省"
+        value[1].name="市"
+        value[2].name="区"
+      }
+    
     },
     onChange(picker, values) {
-      picker.setColumnValues(1, citys[values[0]]);
-    }
-    ,showPopup() {
+       picker.setColumnValues("", values);
+      
+    },
+    showPopup() {
       this.show = !this.show;
     },
     updateCount(isAdd){
       //this.count=++this.count
       this.$store.commit("updateCount",isAdd)
-    }
+    },
+    //  onChangeDetail(val) {
+    //   if (val) {
+    //     this.searchResult = [
+    //       {
+    //         name: "北京",
+    //         address: "郑州市二七区"
+    //       }
+    //     ];
+    //   } else {
+    //     this.searchResult = [];
+    //   }
+    // }
   },
+  
    async mounted() {
    await  this.$store.dispatch('getDetailInfo'),
       new Swiper ('.swiper-container', {
@@ -424,7 +439,7 @@
       padding 10px  0 10px  10px
       background-color  white
       .promote_name
-        color #EA002A
+        color #4D525D
         padding-top 2px
         font-size 12px
         
@@ -433,6 +448,7 @@
         display flex
         flex-direction column
         margin 0 10px
+        color #4D525D
         .coupon_title
           line-height 25px 
           color #EA002A
@@ -475,8 +491,9 @@
       .address
         display flex
         border-bottom 1px solid #eee
-        a
+        .address_dl
           width 92%
+          color #4D525D
           dl
             display flex
             dt
@@ -495,6 +512,7 @@
           padding 10px 0
           li
             padding 5px 5px
+            color #4D525D
             i
               color #FF0000
               font-size 10px
@@ -503,9 +521,10 @@
       padding 15px 10px
       background-color  white
       font-size 16px
-      color #4d525d
+      color #4D525D
       span 
         margin-right 20px
+        color #4D525D
       button
         vertical-align middle
       input 
@@ -522,8 +541,8 @@
       padding 15px 10px
       background-color  white
       font-size 16px
-      color #4d525d
-      a
+      color #4D525D
+      .infomatin_text
         width 93%
     .more-sellers
       display flex
@@ -531,8 +550,8 @@
       padding 15px 10px
       background-color  white
       font-size 16px
-      color #4d525d 
-      a
+      color #4D525D 
+      .more-sellers_text
         width 93%  
     .comment
       display flex
@@ -545,6 +564,7 @@
       .short-comment
         line-height 25px
         font-size 14px
+        color #4D525D
         .good_rate
           margin 0 10px
           color #FF8161
@@ -609,7 +629,7 @@
       padding 15px 10px 0 15px
       background-color  white
       font-size 16px
-      color #4d525d
+      color #4D525D
       .shop_header
         border-bottom 1px solid #eee 
         img 

@@ -13,7 +13,9 @@ import {
 import { Toast } from 'vant';
 import { Overlay } from 'vant';
 import store from './store/store'
+import { Area } from 'vant';
 
+Vue.use(Area);
 Vue.use(Overlay);
 
 Vue.use(Toast);
