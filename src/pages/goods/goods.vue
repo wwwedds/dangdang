@@ -14,7 +14,7 @@
       <!-- 图书标题及价格开始-->
       <div class="content">
         <div class="title">
-          <p><img src="./images/icon_zy.png" />{{detail.dataProduct.productName}}</p>
+          <p><img src="./images/icon_zy.png" /> {{detail.dataProduct.productName}} </p>
           <p>吉林出版社</p>
           <a class="promo_title"  
           href="javascript:;">跨年狂欢，百万图书5折封顶，点击抢购！</a>
@@ -137,7 +137,7 @@
                 show-search-result
                 @confirm="onConfirm"
                 @change="onChange"
-                :search-result="searchResult"
+                
               />
             </van-popup>
           </div>
@@ -163,9 +163,9 @@
       <!-- 数量图文详情更多卖家-->
       <section class='count'>
         <span>数量:</span>
-        <button @click.stop="updateCount(true)">+</button>
-        <input type="text" value='count' v-model="count">
-        <button @click.stop="updateCount(false)">-</button>
+         <button v-on:click="subtract(countI)">-</button>
+                <input type="text" value="0" v-model="countI">
+                <button v-on:click="add(countI)">+</button>
       </section>
       <section class="infomation">
         <div class="infomatin_text">图文详情</div>
@@ -194,7 +194,7 @@
           <li><a href="javascript:;">好评(1620)</a></li>
         </ul>
         <ul class="comment_content">
-          <li>
+          <li  v-for='(item,index) in showList' :key="index">
             <div class="book-userinfo">
               <a class="user_pictor" href="javascript:;"><img src="./images/ddshop_icon.png"/> </a>
               <span class="user_name"><span>用户昵称</span></span>
@@ -211,8 +211,7 @@
               </div>
                 <div><span class="text_type ">
                   </span><p class="content_text ">
-                    我自己学习用的，每周背两篇，之前已经背了一部分，
-                    这次买的比之前的书更详细，喜欢！</p></div>
+                   {{item.content}}</p></div>
               <div class="user_operate">
               <span><i class='iconfont icon-dianzan'></i><span class="text">1</span></span>
                <span><i class='iconfont icon-huihua'></i>回复</span>
@@ -220,7 +219,9 @@
             </div>
           </li>
         </ul>
-        <a class='more' href="javascript:;">查看更多评论</a>
+         <div class="hello">
+             <div @click="update_review" class="more">{{word}}</div>
+      </div>
       </div>
     </div>
     <div class="lang-comment">暂无长评</div>
@@ -278,10 +279,12 @@ import areaList from "../../assets/area";
     return {
       value: '',
       showPicker: false,
-    
+      countI:0,
       show:false,
         areaList,
-      searchResult: []
+      //searchResult: [],
+      // toLearnList:[],//进行显示的数据
+      showAll:false//标记数据是否需要完全显示的属性
     }
   },
   methods: {
@@ -303,26 +306,27 @@ import areaList from "../../assets/area";
     showPopup() {
       this.show = !this.show;
     },
-    updateCount(isAdd){
-      //this.count=++this.count
-      this.$store.commit("updateCount",isAdd)
-    },
-    //  onChangeDetail(val) {
-    //   if (val) {
-    //     this.searchResult = [
-    //       {
-    //         name: "北京",
-    //         address: "郑州市二七区"
-    //       }
-    //     ];
-    //   } else {
-    //     this.searchResult = [];
-    //   }
-    // }
+    // updateCount(){
+    //   //this.count=++this.count
+    //   this.$store.commit("updateCount",this.countI)
+    // },
+   update_review(){
+      this.showAll=!this.showAll
+
+   },
+         add: function() {this.countI=++this.countI;
+          this.$store.commit("updateCount",this.countI)},
+         subtract: function() {if (this.countI <= 0) {this.$toast('不能再少了')} else {this.countI=--this.countI;
+          this.$store.commit("updateCount",this.countI)}}
+    
   },
   
    async mounted() {
    await  this.$store.dispatch('getDetailInfo'),
+    this.$store.commit("updateReview",this.detail.review_list)
+     
+     
+
       new Swiper ('.swiper-container', {
         loop: true, // 循环模式选项
         // 如果需要分页器
@@ -334,9 +338,23 @@ import areaList from "../../assets/area";
     },
      computed: {
       ...mapState(["detail"]),
-      ...mapState(["count"]),
-      
+      ...mapState(["countI"]),
+      ...mapState(["review_list"]),
+
+      showList:function(){
+      if(this.showAll === false){var showList = []//定义一个空数组
+        if(this.review_list.length>3){for(let i=0;i<3;i++){showList.push(this.review_list[i])}}else{showList = this.review_list}
+        return showList}else{return this.review_list;}},
+    word:function(){
+      if(this.showAll === false){
+        return "查看更多评论"
+      }else{
+        return '点击收起'
+      }
     }
+  }
+      
+    
     
   }
 </script>

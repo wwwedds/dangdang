@@ -5,12 +5,5 @@ export default {
     console.log(result);
     commit('setDetailInfo',result.data)
   },
-  updateCount({commit},isAdd) {
-    if(isAdd){
-      commit('saveAdd')
-    }else{
-      
-      commit('saveIncrement')
-    }
-  },
+ 
 }

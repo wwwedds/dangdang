@@ -1,19 +1,17 @@
 export default {
-  setCount(state) {
-    state.count = ++state.count
+  setCount(state,countI) {
+    state.count = ++state.count+countI
   },
   setDetailInfo(state,detail){
     state.detail=detail
   },
-  saveAdd(state){
-    if(state.countI){
-      state.countI++
-    }
-    },
-    saveIncrement(state){
-      if(state.countI>0){
-       state.countI--
-      }
-      
-    }
+  updateCount(state,countI){
+    state.countI=countI
+  }
+ ,
+    updateReview(state,review){
+      state.review_list=review
+       }
+
+    
 }

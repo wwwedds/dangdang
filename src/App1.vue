@@ -1,44 +1,38 @@
 <template>
-  <div>
-    <van-area
-      :area-list="areaList"
-      show-postal
-      show-delete
-      show-set-default
-      show-search-result
-      :search-result="searchResult"
-      @change-detail="onChangeDetail"
-    />
+  <div class="hello">
+      <div v-for='(item,index) in showList' :key="index">{{item}}</div>
+      <div @click="showAll = !showAll" class="show-more">{{word}}</div>
   </div>
 </template>
 
-<script>
-import areaList from "./assets/area";
-export default {
-  name: "Address",
-  data() {
+<script type="text/ecmascript-6">
+  export default {
+    data () {
     return {
-      areaList,
-      searchResult: []
-    };
+      toLearnList:[
+        'html','css','javascript','java','php'   //进行显示的数据
+      ],
+      showAll:false//标记数据是否需要完全显示的属性
+      }
   },
-  methods: {
- 
-    onChangeDetail(val) {
-      if (val) {
-        this.searchResult = [
-          {
-            name: "万达广场",
-            address: "郑州市二七区"
-          }
-        ];
-      } else {
-        this.searchResult = [];
+    computed:{
+    showList:function(){
+      if(this.showAll === false){var showList = []//定义一个空数组
+        if(this.toLearnList.length>3){for(let i=0;i<3;i++){showList.push(this.toLearnList[i])}}else{showList = this.toLearnList}
+        return showList}else{return this.toLearnList;}},
+    word:function(){
+      if(this.showAll === false){
+        return "点击展开"
+      }else{
+        return '点击收起'
       }
     }
   }
-};
+  }
+  
 </script>
 
 <style scoped>
+
+ 
 </style>
