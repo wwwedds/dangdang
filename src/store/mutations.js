@@ -1,8 +1,8 @@
 export default {
-  setCount(state) {
+  setCount(state,countI) {
     
-      state.count=++state.count
-    
+      state.count=++state.count+countI
+      
   },
   setDetailInfo(state,detail){
     state.detail=detail
@@ -14,6 +14,11 @@ export default {
  ,
     updateReview(state,review){
       state.review_list=review
+       },
+       updateCartCount(state,count){
+
+        state.count=state.count+count
+      
        }
 
     

@@ -55,8 +55,9 @@ import {mapState} from 'vuex'
       // },
       onClickButton() {
         this.$toast('添加购物车成功')
-        this.$store.commit("setCount")
-        console.log(this.countI)
+        this.$store.commit("setCount",this.countI)
+        
+      
       }
     }
   }

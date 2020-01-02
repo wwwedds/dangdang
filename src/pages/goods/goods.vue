@@ -164,8 +164,8 @@
       <section class='count'>
         <span>数量:</span>
          <button v-on:click="subtract(countI)">-</button>
-                <input type="text" value="0" v-model="countI">
-                <button v-on:click="add(countI)">+</button>
+         <input type="text" value="0" v-model="countI">
+         <button v-on:click="add(countI)">+</button>
       </section>
       <section class="infomation">
         <div class="infomatin_text">图文详情</div>
@@ -257,10 +257,18 @@
     <div class="shade_promotion" v-show="show" @click.stop="show=false">
       <div class="promote-name">
         <span class="aa">促销</span>
-          <div>
-            <span class="coupon_title">满额减</span>
-            <span class="icon_list">每满￥79.00减￥30.00</span>
-          </div>
+        <div class="promotion_text">
+          <span class="coupon_title">满额减</span>
+          <span class="icon_list">每满￥79.00减￥30.00</span>
+        </div>
+        <div class="promotion_text">
+          <span class="coupon_title">加价购</span>
+          <span class="icon_list">加1.90~129.00元换购热销商品</span>
+        </div>
+        <div class="promotion_text">
+          <span class="coupon_title">加价购</span>
+          <span class="icon_list">加1.90~129.00元换购热销商品</span>
+        </div>
       </div>
     </div>
   </transition>
@@ -666,31 +674,46 @@ import areaList from "../../assets/area";
           padding-right 15px
           border-right 1px solid #eee
           line-height 25px
-  .shade_promotion
-    position: fixed
-    //position:relative
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    z-index: 40
-    backdrop-filter: blur(10px)
-    opacity: 1
-    background: rgba(7, 17, 27, 0.6)
-    &.fade-enter-active, &.fade-leave-active
-      transition: opacity 0.5s
-    &.fade-enter, &.fade-leave-to
-      opacity: 0
-    .promote-name
-      z-index 1000
-      position: absolute
-      bottom 0 
-      left 0
-      background-color white
-      font-size 20px
-      width 100% 
-      height 200px
-        
+  .shade
+    .shade_promotion
+      position: fixed
+      //position:relative
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      z-index: 40
+      backdrop-filter: blur(10px)
+      opacity: 1
+      background: rgba(7, 17, 27, 0.6)
+      &.fade-enter-active, &.fade-leave-active
+        transition: opacity 0.5s
+      &.fade-enter, &.fade-leave-to
+        opacity: 0
+      .promote-name
+        z-index 1000
+        position: absolute
+        bottom 0 
+        left 0
+        background-color white
+        font-size 18px
+        width 100% 
+        height 200px
+        .aa
+          color #EA002A
+          font-size 18px
+        .promotion_text
+          padding 10px 0
+          .coupon_title
+            line-height 25px 
+            color #EA002A
+            border 1px solid red
+            border-radius 4px
+            margin 0 10px
+          .icon_list
+            color #4D525D
+            padding-left 15px
+            font-size 18px   
          
 
           

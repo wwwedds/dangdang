@@ -1,19 +1,7 @@
 <template>
 <div class="cartAll">
-  <!-- 空购物车显示 -->
-  <div class="cartContainer" v-if="false">
-    <div class="nthing">
-        <img src="./images/cart_null.gif" alt="">
-        <p>您还没有购买任何商品</p>
-        <div class="button">
-          <button>逛一逛</button>
-          <button>我的收藏</button>
-        </div>
-    </div>
-  </div>
-   <!-- 空购物车显示结束 -->
-     <!-- 购物车显示开始 -->
-  <div class="cartContainer_second"  v-else>
+      <!-- 购物车显示开始 -->
+  <div class="cartContainer_second"  v-if="count>0" >
     <!-- 编辑头部 -->
     <div class="compile">
       <div class="compile_left">
@@ -21,11 +9,11 @@
         <img class="complite_dangdang" src="./images/dangdang.png" alt="">
         <span class="complite_text">当当网</span>
       </div>
-      <button>编辑</button>
+      <button @click="compileConChange">编辑</button>
     </div>
     <!-- 编辑头部结束 -->
      <!-- 编辑内容开始 -->
-    <div class="compile_content">
+    <div class="compile_content" >
       <div class="content_top">
         <span class="content_top_left">满额减</span>
         <span class="content_top_right">购物满79元立减30元，满158元立减60元，满230元<i class="iconfont icon-jiantou1"></i></span>
@@ -39,7 +27,7 @@
           <div class="main_price_div">¥1.00 <span class="main_price_delete">¥1.00</span>
           </div>
           <div class="book_count">
-            <span>x1</span>
+            <span>x{{count}}</span>
             <button @click="compileConChange"><i class="iconfont icon-xiugai"></i></button>
           </div>  
         </div>
@@ -48,9 +36,9 @@
         <img src="./images/27950877-1_l_3.jpg" alt="">
         <div class="compile_content_check_count">
           <section >
-            <button>+</button>
-            <input type="text" value='1'>
-            <button>-</button>
+            <button v-on:click="subtract(countH)">-</button>
+            <input type="text" value="0" v-model="countH">
+            <button v-on:click="add(countH)">+</button>
           </section>
           <button class="button_icon"><i class="iconfont icon-shanchu"></i></button>
         </div>
@@ -82,15 +70,30 @@
      <!-- 底部导航条结束 -->
   </div>
   <!-- 购物车显示结束 -->
+  <!-- 空购物车显示 -->
+  <div class="cartContainer" v-else>
+    <div class="nthing">
+        <img src="./images/cart_null.gif" alt="">
+        <p>您还没有购买任何商品</p>
+        <div class="button">
+          <button>逛一逛</button>
+          <button>我的收藏</button>
+        </div>
+    </div>
+  </div>
+   <!-- 空购物车显示结束 -->
+   
 </div>
 </template>
 
 <script type="text/ecmascript-6">
+import {mapState} from 'vuex'
   export default {
     data() {
       return {
         isShow:true,
-        isChange:true
+        isChange:true,
+        countH:0
       }
     },
     methods: {
@@ -99,7 +102,17 @@
       },
       compileConChange(){
         this.isShow=!this.isShow
-      }
+      },
+        add: function() {this.countH=++this.countH;
+          this.$store.commit("updateCartCount",this.countH)},
+         subtract: function() {if (this.countH <= 0) {this.$toast('不能再少了')} else {this.countH=--this.countH;
+          this.$store.commit("updateCartCount",this.countH)}}
+    
+    },
+    computed: {
+      ...mapState(["count"]),
+      ...mapState(["countH"])
+      
     },
   }
 </script>
