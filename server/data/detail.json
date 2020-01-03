@@ -699,7 +699,7 @@
           "name": "支持7日无理由退货"
       }
     ],
-    "arriver_info": [
+    "arriver_info":
       {
           "code": "100",
           "calcMessage": "成功",
@@ -715,7 +715,7 @@
           "shipword": "明天19:15前下单，预计后天送达",
           "shipping_fee": "运费6元，满49元包邮"
       }
-    ],
+    ,
     "ad_list":
       {
           "callback_url": "http://a.dangdang.com/mobile_cost.php?q=ftu88BD43qDpBBpntnYSw1pG3A6UCn0FFHCyzbJyMaui58evrsvsOvEDPPnnP6DyQR96aq%2Fpd7lt1Vs69NHTtVGTpJP3F8eXI4OAFHRFit0iGe88rL%2FdqEc6ZoGOeHV8KOKC8QDd0cKVqasU1iPeheQzDxA3Rmx1Al%2BHUwvLoXrfY0zAQBKF7QE73vqEgT9r8%2B2XmqJ2sSGZc5YhQ7OjnUFGA0J5dS1xsU%2FfctVnte%2FBPjgVYOcdtDgok5uIjypslr3dJXv%2FOZS32KEDEOTGICvIdqPMVP%2FwljRS0NmYCzdlaQrWRFNGWJB3BxdlOT5iUWxVQD9PR%2Fh2aWDedteKwJuBpaitWy0On7dQQF5Yg5%2BR6KAvp1Idtn5SpKoJfKz4jOwnCnX6bpm4%2FHHDsXlU%2FfPrD0K4ThHnCdygDHpFPnERBJVkuyBgk80X5qkrHQOYhftR6qvj49U6rDnjjZQy%2Frh7yX47PRpSKY21YQJACh8eNIe3abTlZchrWx77W2pJRJY&platform=touch",

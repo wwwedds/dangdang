@@ -24,7 +24,7 @@
         <div class="book_info">
           <p>鬼谷子全集正版原著珍藏版全书绝学白话文鬼谷子教你攻心术鬼谷子的局
           </p>
-          <div class="main_price_div">¥1.00 <span class="main_price_delete">¥1.00</span>
+          <div class="main_price_div">￥{{detail.new_price.price_1}} <span class="main_price_delete">￥{{detail.new_price.price_2}}</span>
           </div>
           <div class="book_count">
             <span>x{{count}}</span>
@@ -40,7 +40,7 @@
             <input type="text" value="0" v-model="countH">
             <button v-on:click="add(countH)">+</button>
           </section>
-          <button class="button_icon"><i class="iconfont icon-shanchu"></i></button>
+          <button class="button_icon" @click="handleClick"><i class="iconfont icon-iconset0212"></i></button>
         </div>
         <button @click="compileConChange">完成</button>
       </div>
@@ -50,7 +50,7 @@
         <span class="special_right">购买本商品可买加价购<i class="iconfont icon-jiantou1"></i></span>
       </div>
       <div class="compile_content_footer">
-        <span class="price_span">¥1.00</span>
+        <span class="price_span">￥{{detail.new_price.price_1*count}}元</span>
         <span>满额小计:</span>
       </div>
     </div>
@@ -59,11 +59,11 @@
     <footer class="footer">
       <div>
         <img @click="compileChange" :src="isChange ? require('./images/c_checkbox_off.png'):require('./images/c_checkbox_on.png')" alt="">
-        <span class="footer_allcheck">全选</span>
+        <span class="footer_allcheck" @click="isChecked">全选</span>
       </div>
       <div class="footer_right">
-        <span>结算（0）</span>
-        <span  class="footer_price">合计: ¥1.00</span> 
+        <span>结算（{{count}}）</span>
+        <span  class="footer_price">合计: ￥{{detail.new_price.price_1*count}}元</span> 
       </div>
        
      </footer>
@@ -99,6 +99,7 @@ import {mapState} from 'vuex'
     methods: {
       compileChange(){
         this.isChange=!this.isChange
+
       },
       compileConChange(){
         this.isShow=!this.isShow
@@ -106,13 +107,34 @@ import {mapState} from 'vuex'
         add: function() {this.countH=++this.countH;
           this.$store.commit("updateCartCount",this.countH)},
          subtract: function() {if (this.countH <= 0) {this.$toast('不能再少了')} else {this.countH=--this.countH;
-          this.$store.commit("updateCartCount",this.countH)}}
+          this.$store.commit("updateCartCount",this.countH)}},//添加减少逻辑
+          isChecked(){
+          if(this.count>0){
+            this.isChange=false
+          }//改变全选状态
+          },
+          handleClick(){
+              this.$dialog.confirm({
+              title: '标题',
+              message: '确定删除该商品么？'
+            }).then(() => {
+              // on confirm
+            }).catch(() => {
+              // on cancel
+            })
+            
+           
+      
+          }
+       
+  
     
     },
     computed: {
       ...mapState(["count"]),
-      ...mapState(["countH"])
-      
+      ...mapState(["countH"]),
+       ...mapState(["detail"]),
+          
     },
   }
 </script>
@@ -250,22 +272,22 @@ import {mapState} from 'vuex'
         section
           button
             font-size 20px
-            
+            //display inline-block
             border 0
             background-color transparent
             outline none
             border 1px solid #EFEFEF
             width 45px
-            heigth 45px 
+            heigth 48px 
           input 
-            display inline-block
+            //display inline-block
             width 80px
             font-size 20px
             text-align  center
-            border 1px solid #EFEFEF
+            //border 1px solid #EFEFEF
             border-top 1px solid #EFEFEF
             border-bottom 1px solid #EFEFEF
-            height 26px
+            height 22px
         .button_icon
           border 0
           background-color transparent

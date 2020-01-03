@@ -55,7 +55,7 @@
           <div class="p_num">1448人评分<span class="p_message">精彩评分送积分</span></div>
         </div>
         <div class="right">
-          <div class='right-content'><div>我要写评论</div></div>
+          <div class='right-content'><div @click="$router.replace('/comment')">我要写评论</div></div>
           
         </div>
       </div>
@@ -66,8 +66,8 @@
           <div class="promote_name"><span class="aa">促销</span></div>
           <div class="promo_section">
             <div>
-              <span class="coupon_title">满额减</span>
-              <span class="icon_list">每满￥79.00减￥30.00</span>
+              <span class="coupon_title">{{detail.promo_model[0].promotion_tag}}</span>
+              <span class="icon_list">{{detail.promo_model[0].word}}</span>
             </div>
             <div>
               <span class="coupon_title">加价购</span>
@@ -87,25 +87,25 @@
       <div class="book-info">
         <section>
           <span>作者</span>
-          <span>安安</span>
+          <span>{{detail.ad_list.author_name}}</span>
           <span>查看作品</span>
           <i class="iconfont icon-jiantou1"></i>
         </section>
         <section>
           <span>出版</span>
-          <span>安安</span>
+          <span>江苏凤凰文艺出版社</span>
           <span>查看作品</span>
           <i class="iconfont icon-jiantou1"></i>
         </section>
         <section>
           <span>排名</span>
-          <span>安安</span>
+          <span>中小学生辅 书籍473名</span>
           <span>查看作品</span>
           <i class="iconfont icon-jiantou1"></i>
         </section>
         <section>
           <span>分类</span>
-          <span>安安</span>
+          <span>图书>中小教学辅>新课标</span>
           <span>查看作品</span>
           <i class="iconfont icon-jiantou1"></i>
         </section>
@@ -123,8 +123,8 @@
                 <span v-if="value">
                    {{value[0].name}}&gt;{{value[1].name}}&gt;{{value[2].name}}
                 </span>
-                <br>22:45前下单，预计明天送达
-                <br>运费6元，满49元包邮
+                <br>{{detail.arriver_info.shipword}}
+                <br>{{detail.arriver_info.shipping_fee}}
                 <br></dd>
       
             </dl>
@@ -147,15 +147,8 @@
         </div>	
         <div class="deliver">
           <ul>
-              <li class="icon_support"><i class='iconfont icon-yuandianxiao'></i>当当发货&amp;售后</li>
+              <li class="icon_support" v-for="(item,index) in detail.deliver" :key="index"><i class='iconfont icon-yuandianxiao'></i>{{item.name}}</li>
 
-              <li class="icon_support"><i class='iconfont icon-yuandianxiao'></i>正品保障</li>
-
-              <li class="icon_support"><i class='iconfont icon-yuandianxiao'></i>支持当当V卡</li>
-
-              <li class="icon_support"><i class='iconfont icon-yuandianxiao'></i>支持使用当当V卡支付</li>
-
-              <li class="icon_support"><i class='iconfont icon-yuandianxiao'></i>支持7日无理由退货</li>
           </ul>
         </div>
       </section>
@@ -168,13 +161,13 @@
          <button v-on:click="add(countI)">+</button>
       </section>
       <section class="infomation">
-        <div class="infomatin_text">图文详情</div>
+        <div class="infomatin_text" @click="$router.replace('/detail')">图文详情</div>
         <div class='arror'>
           <i class="iconfont icon-jiantou1"></i>
         </div>
       </section>
       <section class="more-sellers">
-        <div class="more-sellers_text">更多卖家</div>
+        <div class="more-sellers_text" @click="$router.replace('/recommend')">更多卖家</div>
         <div class='arror'>
           <i class="iconfont icon-jiantou1"></i>
         </div>
@@ -183,22 +176,17 @@
     <div class='comment'>
       <div class="short-comment">
         <div><h4>短评（1620）<span class="good_rate">100.0%好评</span> 
-            <div class="write_comment">写短评</div></h4>
+            <div class="write_comment" @click="$router.replace('/comment')">写短评</div></h4>
         </div>
         <ul class="comment_list">
-          <li><a href="javascript:;">好评(1620)</a></li>
-          <li><a href="javascript:;">对孩子有帮助的(1620)</a></li>
-          <li><a href="javascript:;">实用的(1620)</a></li>
-          <li><a href="javascript:;">全面的(1620)</a></li>
-          <li><a href="javascript:;">好评(1620)</a></li>
-          <li><a href="javascript:;">好评(1620)</a></li>
+          <li v-for="(item,index) in  detail.comment_list.data" :key="index"><a href="javascript:;">{{item.name}}({{item.label_id}})</a></li>
         </ul>
         <ul class="comment_content">
           <li  v-for='(item,index) in showList' :key="index">
             <div class="book-userinfo">
-              <a class="user_pictor" href="javascript:;"><img src="./images/ddshop_icon.png"/> </a>
+              <a class="user_pictor" href="javascript:;"><img :src="item.cust_logo"/> </a>
               <span class="user_name"><span>用户昵称</span></span>
-              <span class="buy"><img src="./images/1546071739-reviewimg-9_o.jpg" alt=""></span>
+              <span class="buy"><img :src="item.customer_identity_url" alt=""></span>
               <div class="stars_div">
                 <div class="stars">
                   <span class="red"><i class='iconfont icon-pingfenmini'></i></span>
@@ -209,9 +197,10 @@
                 </div>
                 <span class="score">9.5分</span>
               </div>
-                <div><span class="text_type ">
-                  </span><p class="content_text ">
-                   {{item.content}}</p></div>
+                <div><p class="content_text ">{{item.content}}</p></div>
+                <div >
+                  <img :src="item.comment_image.big_img" alt="">
+                </div>
               <div class="user_operate">
               <span><i class='iconfont icon-dianzan'></i><span class="text">1</span></span>
                <span><i class='iconfont icon-huihua'></i>回复</span>
@@ -236,12 +225,12 @@
           <strong>4.5</strong>
         </li>
          <li>
-          <p>商品包装</p>
-          <strong>4.5</strong>
+          <p>物流速度</p>
+          <strong>4.78</strong>
         </li>
          <li>
-          <p>商品包装</p>
-          <strong>4.5</strong>
+          <p>快递员满意度</p>
+          <strong>4.86</strong>
         </li>
       </ul>
     </section>
@@ -493,7 +482,7 @@ import areaList from "../../assets/area";
     .book-info
       margin-top 6px
       background-color  white
-      font-size 16px
+      font-size 14px
       color #4d525d
       padding-left 10px
       padding-right 10px
@@ -611,21 +600,26 @@ import areaList from "../../assets/area";
             a
               color #FF8161
         .comment_content
+          
           .book-userinfo
             //display flex
             padding-top 10px
+            position  relative
             .stars_div
-              float right
+              position absolute
+              right 10px
+              top 15px
+              //float right
               display flex
               margin-top 5px
               color  #FF8161
             .user_pictor
               vertical-align middle
               img 
-                width 40px
+                width 30px
             .user_name
               vertical-align middle
-              padding 0 10px
+              padding 0 8px
             .buy
               vertical-align middle
               img
